@@ -1,3 +1,5 @@
+using Project.Application.Common.Messages;
+
 namespace Project.Application.Features.Commands.RegisterUser;
 
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
@@ -5,27 +7,27 @@ public class RegisterUserCommandValidator : AbstractValidator<RegisterUserComman
     public RegisterUserCommandValidator()
     {
         RuleFor(x => x.Request)
-            .NotNull().WithMessage("{PropertyName} is required.")
+            .NotNull().WithMessage(ErrorMessages.InvalidRequest)
             .DependentRules(() =>
             {
                 RuleFor(x => x.Request.Username)
-                    .NotEmpty().WithMessage("{PropertyName} is required.")
-                    .NotNull().WithMessage("{PropertyName} is required.")
-                    .Must(x => !x.Contains(' ')).WithMessage("{PropertyName} cannot contain spaces.");
+                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
+                    .NotNull().WithMessage(ErrorMessages.RequiredProperty)
+                    .Must(x => !x.Contains(' ')).WithMessage(ErrorMessages.InvalidProperty);
 
                 RuleFor(x => x.Request.Password)
-                    .NotEmpty().WithMessage("{PropertyName} is required.")
-                    .NotNull().WithMessage("{PropertyName} is required.")
-                    .MinimumLength(8).WithMessage("{PropertyName} must be at least 8 characters long.")
-                    .Matches(@"[A-Z]").WithMessage("{PropertyName} must contain at least one uppercase character.")
-                    .Matches(@"[a-z]").WithMessage("{PropertyName} must contain at least one lowercase character.")
-                    .Matches(@"[0-9]").WithMessage("{PropertyName} must contain at least one number.")
-                    .Matches(@"[^a-zA-Z0-9]").WithMessage("{PropertyName} must contain at least one special character.");
+                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
+                    .NotNull().WithMessage(ErrorMessages.RequiredProperty)
+                    .MinimumLength(8).WithMessage(ErrorMessages.PasswordTooShort)
+                    .Matches(@"[A-Z]").WithMessage(ErrorMessages.PasswordMissingUppercase)
+                    .Matches(@"[a-z]").WithMessage(ErrorMessages.PasswordMissingLowercase)
+                    .Matches(@"[0-9]").WithMessage(ErrorMessages.PasswordMissingNumber)
+                    .Matches(@"[^a-zA-Z0-9]").WithMessage(ErrorMessages.PasswordMissingSpecialCharacter);
 
                 RuleFor(x => x.Request.Email)
-                    .NotEmpty().WithMessage("{PropertyName} is required.")
-                    .NotNull().WithMessage("{PropertyName} is required.")
-                    .EmailAddress().WithMessage("{PropertyName} is invalid.");
+                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
+                    .NotNull().WithMessage(ErrorMessages.RequiredProperty)
+                    .EmailAddress().WithMessage(ErrorMessages.InvalidProperty);
         });
     }
 }

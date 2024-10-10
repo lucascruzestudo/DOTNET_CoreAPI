@@ -1,3 +1,5 @@
+using Project.Application.Common.Messages;
+
 namespace Project.Application.Features.Commands.LoginUser;
 
 public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
@@ -5,16 +7,16 @@ public class LoginUserCommandValidator : AbstractValidator<LoginUserCommand>
     public LoginUserCommandValidator()
     {
         RuleFor(x => x.Request)
-            .NotNull().WithMessage("{PropertyName} is required.")
+            .NotNull().WithMessage(ErrorMessages.InvalidRequest)
             .DependentRules(() =>
             {
                 RuleFor(x => x.Request.Login)
-                    .NotEmpty().WithMessage("{PropertyName} is required.")
-                    .NotNull().WithMessage("{PropertyName} is required.");
+                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
+                    .NotNull().WithMessage(ErrorMessages.RequiredProperty);
 
                 RuleFor(x => x.Request.Password)
-                    .NotEmpty().WithMessage("{PropertyName} is required.")
-                    .NotNull().WithMessage("{PropertyName} is required.");
+                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
+                    .NotNull().WithMessage(ErrorMessages.RequiredProperty);
             });
     }
 }
