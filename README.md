@@ -19,4 +19,6 @@ Para uso do template é preciso ter a seguinte SDK:
 
 * **Removendo:** dotnet ef migrations remove -p Infrastructure/ -s WebApi/
 
- 
+## Execução 
+
+* **Iniciar (PowerShell):** docker-compose build --no-cache; docker-compose up

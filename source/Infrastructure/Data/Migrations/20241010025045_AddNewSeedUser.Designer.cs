@@ -12,8 +12,8 @@ using Project.Infrastructure.Data;
 namespace Project.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241004004537_UserAndRole")]
-    partial class UserAndRole
+    [Migration("20241010025045_AddNewSeedUser")]
+    partial class AddNewSeedUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,12 @@ namespace Project.Infrastructure.Data.Migrations
                         .HasColumnName("PK_ROLEID");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_CREATEDAT");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("FL_DELETED");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -44,7 +46,8 @@ namespace Project.Infrastructure.Data.Migrations
                         .HasColumnName("TX_NAME");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_UPDATEDAT");
 
                     b.HasKey("Id");
 
@@ -54,14 +57,14 @@ namespace Project.Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9a"),
-                            CreatedAt = new DateTime(2024, 10, 4, 0, 45, 37, 193, DateTimeKind.Utc).AddTicks(1470),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 245, DateTimeKind.Utc).AddTicks(6451),
                             IsDeleted = false,
                             Name = "Admin"
                         },
                         new
                         {
                             Id = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9b"),
-                            CreatedAt = new DateTime(2024, 10, 4, 0, 45, 37, 193, DateTimeKind.Utc).AddTicks(1476),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 245, DateTimeKind.Utc).AddTicks(6454),
                             IsDeleted = false,
                             Name = "User"
                         });
@@ -75,7 +78,8 @@ namespace Project.Infrastructure.Data.Migrations
                         .HasColumnName("PK_USERID");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_CREATEDAT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -88,13 +92,16 @@ namespace Project.Infrastructure.Data.Migrations
                         .HasColumnName("TX_PASSWORD");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("FL_DELETED");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("FK_ROLEID");
 
                     b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_UPDATEDAT");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -110,13 +117,33 @@ namespace Project.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d0ea3c5e-3d1b-4e39-87d6-662ec97f6dc5"),
-                            CreatedAt = new DateTime(2024, 10, 4, 0, 45, 37, 193, DateTimeKind.Utc).AddTicks(1736),
+                            Id = new Guid("c1fc3f80-866a-44a4-a33f-21445909de1e"),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 245, DateTimeKind.Utc).AddTicks(6611),
                             Email = "admin@system.com",
-                            HashedPassword = "$2a$11$HDSfiDwyjW0948KqxfDP7OaNM6Cc8x1yll7nliNNqLcVqR3cisyZm",
+                            HashedPassword = "$2a$11$udfkrLZ89y5yF055EkYgReShrlaASxyCvo4uQUDwm87Uzz.XSiaWC",
                             IsDeleted = false,
                             RoleId = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9a"),
                             Username = "administrator"
+                        },
+                        new
+                        {
+                            Id = new Guid("1832cdd0-ed35-4a6c-bc7b-3d6d104b6c36"),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 360, DateTimeKind.Utc).AddTicks(1116),
+                            Email = "lucascruzestudo@gmail.com",
+                            HashedPassword = "$2a$11$moRhq6j4UrriJM/MqBdBmuCoep5.exC79fOYxzHkDGXllMA0ux1Wi",
+                            IsDeleted = false,
+                            RoleId = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9a"),
+                            Username = "lucascruzestudo"
+                        },
+                        new
+                        {
+                            Id = new Guid("61a864df-b35c-470d-8e8d-e1b025f3b1d1"),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 475, DateTimeKind.Utc).AddTicks(3673),
+                            Email = "lucascruztrabalho@gmail.com",
+                            HashedPassword = "$2a$11$KxH9z7sXaK4SsoA0N3L5N.b9RU/x/F1JplZhFNLg7fhWwb.MdFgf2",
+                            IsDeleted = false,
+                            RoleId = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9b"),
+                            Username = "lucascruztrabalho"
                         });
                 });
 

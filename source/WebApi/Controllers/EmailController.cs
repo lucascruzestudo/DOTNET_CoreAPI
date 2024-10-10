@@ -5,22 +5,17 @@ using Project.Application.Features.Email.Commands.EmailTest;
 
 namespace Project.WebApi.Controllers;
 
-public class EmailController : BaseController
+public class EmailController(INotificationHandler<DomainNotification> notifications,
+                      INotificationHandler<DomainSuccessNotification> successNotifications,
+                      IMediator mediatorHandler) : BaseController(notifications, successNotifications, mediatorHandler)
 {
-    private readonly IMediator _mediatorHandler;
+    private readonly IMediator _mediatorHandler = mediatorHandler;
 
-    public EmailController(INotificationHandler<DomainNotification> notifications,
-                          INotificationHandler<DomainSuccessNotification> successNotifications,
-                          IMediator mediatorHandler) : base(notifications, successNotifications, mediatorHandler)
-    {
-        _mediatorHandler = mediatorHandler;
-    }
-
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     [HttpPost("Test")]
     [ProducesResponseType(typeof(EmailTestCommandResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> EmailTest([FromBody] EmailTestCommandRequest request)
+    public async Task<IActionResult> EmailTest()
     {
-        return Response(await _mediatorHandler.Send(new EmailTestCommand(request)));
+        return Response(await _mediatorHandler.Send(new EmailTestCommand()));
     }
 }

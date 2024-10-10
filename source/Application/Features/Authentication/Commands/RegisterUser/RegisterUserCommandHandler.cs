@@ -6,18 +6,11 @@ using Project.Domain.Notifications;
 
 namespace Project.Application.Features.Commands.RegisterUser
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegisterUserCommandResponse?>
+    public class RegisterUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMediator mediator) : IRequestHandler<RegisterUserCommand, RegisterUserCommandResponse?>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
-        private readonly IMediator _mediator;
-
-        public RegisterUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMediator mediator)
-        {
-            _unitOfWork = unitOfWork;
-            _userRepository = userRepository;
-            _mediator = mediator;
-        }
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IMediator _mediator = mediator;
 
         public async Task<RegisterUserCommandResponse?> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
         {

@@ -19,5 +19,16 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.Property(r => r.Name)
                 .HasColumnName("TX_NAME")
                 .IsRequired();
+
+        builder.Property(t => t.CreatedAt)
+                .HasColumnName("DT_CREATEDAT")
+                .IsRequired();
+
+        builder.Property(t => t.UpdatedAt)
+                .HasColumnName("DT_UPDATEDAT");
+                        
+        builder.Property(t => t.IsDeleted)
+                .HasColumnName("FL_DELETED")
+                .IsRequired();
     }
 }

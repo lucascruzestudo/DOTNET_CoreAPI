@@ -28,9 +28,24 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
                 .HasColumnName("TX_EMAIL")
                 .IsRequired();
 
+        builder.Property(t => t.RoleId)
+                .HasColumnName("FK_ROLEID")
+                .IsRequired();
+
         builder.HasOne(u => u.Role)
                 .WithMany(r => r.Users)
                 .HasForeignKey(u => u.RoleId)
                 .HasConstraintName("FK_USER_ROLE");
+
+        builder.Property(t => t.CreatedAt)
+                .HasColumnName("DT_CREATEDAT")
+                .IsRequired();
+
+        builder.Property(t => t.UpdatedAt)
+                .HasColumnName("DT_UPDATEDAT");
+        
+        builder.Property(t => t.IsDeleted)
+                .HasColumnName("FL_DELETED")
+                .IsRequired();
     }
 }

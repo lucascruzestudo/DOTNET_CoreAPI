@@ -10,16 +10,10 @@ using Project.Domain.Constants;
 
 namespace Project.Infrastructure.Authentication
 {
-    public class TokenService : ITokenService
+    public class TokenService(IOptions<JwtSettings> jwtSettings, IRoleRepository roleRepository) : ITokenService
     {
-        private readonly JwtSettings _jwtSettings;
-        private readonly IRoleRepository _roleRepository;
-
-        public TokenService(IOptions<JwtSettings> jwtSettings, IRoleRepository roleRepository)
-        {
-            _jwtSettings = jwtSettings.Value;
-            _roleRepository = roleRepository;
-        }
+        private readonly JwtSettings _jwtSettings = jwtSettings.Value;
+        private readonly IRoleRepository _roleRepository = roleRepository;
 
         public string GenerateToken(User user)
         {
@@ -28,17 +22,13 @@ namespace Project.Infrastructure.Authentication
                 throw new ArgumentException("JWT secret key is not configured.");
             }
 
-            var role = _roleRepository.Get(r => r.Id == user.RoleId);
-            if (role == null)
-            {
-                throw new ArgumentException("User role not found.");
-            }
-
+            var role = _roleRepository.Get(r => r.Id == user.RoleId) ?? throw new ArgumentException("User role not found.");
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, role.Name)
+                new Claim(ClaimTypes.Role, role.Name),
+                new Claim(ClaimTypes.Email, user.Email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));

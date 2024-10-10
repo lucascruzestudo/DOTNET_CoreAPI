@@ -5,11 +5,8 @@ using Project.Domain.Entities;
 
 namespace Project.Infrastructure.Data;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext, IUnitOfWork
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
-    {
-    }
     public DbSet<Role> User { get; set; }
     public DbSet<Role> Role { get; set; }
 

@@ -6,22 +6,15 @@ namespace Project.WebApi.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public abstract class BaseController : Controller
+public abstract class BaseController(INotificationHandler<DomainNotification> notifications,
+                         INotificationHandler<DomainSuccessNotification> successNotifications,
+                         IMediator mediatorHandler) : Controller
 {
-    private readonly DomainNotificationHandler _notifications;
-    private readonly DomainSuccessNotificationHandler _successNotifications;
-    private readonly IMediator _mediatorHandler;
+    private readonly DomainNotificationHandler _notifications = (DomainNotificationHandler)notifications;
+    private readonly DomainSuccessNotificationHandler _successNotifications = (DomainSuccessNotificationHandler)successNotifications;
+    private readonly IMediator _mediatorHandler = mediatorHandler;
 
     protected Guid ClienteId;
-
-    protected BaseController(INotificationHandler<DomainNotification> notifications,
-                             INotificationHandler<DomainSuccessNotification> successNotifications,
-                             IMediator mediatorHandler)
-    {
-        _notifications = (DomainNotificationHandler)notifications;
-        _successNotifications = (DomainSuccessNotificationHandler)successNotifications;
-        _mediatorHandler = mediatorHandler;
-    }
 
     protected bool IsOperationValid()
     {

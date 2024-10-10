@@ -7,16 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Project.WebApi.Controllers
 {
-    public class AuthenticationController : BaseController
+    public class AuthenticationController(INotificationHandler<DomainNotification> notifications,
+                          INotificationHandler<DomainSuccessNotification> successNotifications,
+                          IMediator mediatorHandler) : BaseController(notifications, successNotifications, mediatorHandler)
     {
-        private readonly IMediator _mediatorHandler;
-
-        public AuthenticationController(INotificationHandler<DomainNotification> notifications,
-                              INotificationHandler<DomainSuccessNotification> successNotifications,
-                              IMediator mediatorHandler) : base(notifications, successNotifications, mediatorHandler)
-        {
-            _mediatorHandler = mediatorHandler;
-        }
+        private readonly IMediator _mediatorHandler = mediatorHandler;
 
         [Authorize(Roles = "Admin")]
         [HttpPost("Register")]

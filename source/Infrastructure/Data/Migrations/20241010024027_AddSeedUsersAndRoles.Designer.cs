@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Project.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Project.Infrastructure.Data;
 namespace Project.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241010024027_AddSeedUsersAndRoles")]
+    partial class AddSeedUsersAndRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,14 +57,14 @@ namespace Project.Infrastructure.Data.Migrations
                         new
                         {
                             Id = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9a"),
-                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 245, DateTimeKind.Utc).AddTicks(6451),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 40, 26, 795, DateTimeKind.Utc).AddTicks(1301),
                             IsDeleted = false,
                             Name = "Admin"
                         },
                         new
                         {
                             Id = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9b"),
-                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 245, DateTimeKind.Utc).AddTicks(6454),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 40, 26, 795, DateTimeKind.Utc).AddTicks(1304),
                             IsDeleted = false,
                             Name = "User"
                         });
@@ -114,33 +117,23 @@ namespace Project.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c1fc3f80-866a-44a4-a33f-21445909de1e"),
-                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 245, DateTimeKind.Utc).AddTicks(6611),
+                            Id = new Guid("c3278072-3254-45b9-9c18-48ef7fdfe0ac"),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 40, 26, 795, DateTimeKind.Utc).AddTicks(1461),
                             Email = "admin@system.com",
-                            HashedPassword = "$2a$11$udfkrLZ89y5yF055EkYgReShrlaASxyCvo4uQUDwm87Uzz.XSiaWC",
+                            HashedPassword = "$2a$11$6fR3srh9tMATUjIfg6qe.eg6Q/oSV4JI4IPhjyh/PGr3szBk3BgFu",
                             IsDeleted = false,
                             RoleId = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9a"),
                             Username = "administrator"
                         },
                         new
                         {
-                            Id = new Guid("1832cdd0-ed35-4a6c-bc7b-3d6d104b6c36"),
-                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 360, DateTimeKind.Utc).AddTicks(1116),
+                            Id = new Guid("376de265-379a-4dcb-bbe3-956fa3a6f7c7"),
+                            CreatedAt = new DateTime(2024, 10, 10, 2, 40, 26, 912, DateTimeKind.Utc).AddTicks(1848),
                             Email = "lucascruzestudo@gmail.com",
-                            HashedPassword = "$2a$11$moRhq6j4UrriJM/MqBdBmuCoep5.exC79fOYxzHkDGXllMA0ux1Wi",
+                            HashedPassword = "$2a$11$B3M8rnpjjbFmWV6noB6UveT6/cypAZL0iKmE.tXU6wlxs0h7EVY92",
                             IsDeleted = false,
                             RoleId = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9a"),
                             Username = "lucascruzestudo"
-                        },
-                        new
-                        {
-                            Id = new Guid("61a864df-b35c-470d-8e8d-e1b025f3b1d1"),
-                            CreatedAt = new DateTime(2024, 10, 10, 2, 50, 45, 475, DateTimeKind.Utc).AddTicks(3673),
-                            Email = "lucascruztrabalho@gmail.com",
-                            HashedPassword = "$2a$11$KxH9z7sXaK4SsoA0N3L5N.b9RU/x/F1JplZhFNLg7fhWwb.MdFgf2",
-                            IsDeleted = false,
-                            RoleId = new Guid("f7d4d7a9-4d1e-4a8d-9a8e-9b9a9b9a9b9b"),
-                            Username = "lucascruztrabalho"
                         });
                 });
 

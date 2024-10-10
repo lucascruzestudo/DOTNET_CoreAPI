@@ -16,6 +16,20 @@ internal class UserSeed : IEntityTypeConfiguration<User>
                 password: "123-!@#-123-!@#",
                 email: "admin@system.com",
                 roleId: RoleConstants.Admin
+            ),
+            new User
+            (
+                username: "lucascruzestudo",
+                password: "123-!@#-123-!@#",
+                email: "lucascruzestudo@gmail.com",
+                roleId: RoleConstants.Admin
+            ),
+            new User
+            (
+                username: "lucascruztrabalho",
+                password: "123-!@#-123-!@#",
+                email: "lucascruztrabalho@gmail.com",
+                roleId: RoleConstants.User
             )
         );
     }

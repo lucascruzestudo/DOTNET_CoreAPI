@@ -2,15 +2,11 @@
 using Project.Domain.Interfaces.Data.Repositories;
 
 namespace Project.Infrastructure.Data.Respositories;
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(ApplicationDbContext dbContext) : IUnitOfWork
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly Dictionary<Type, object> _repositories;
-    public UnitOfWork(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-        _repositories = [];
-    }
+    private readonly ApplicationDbContext _dbContext = dbContext;
+    private readonly Dictionary<Type, object> _repositories = [];
+
     public IRepositoryBase<TEntity> GetRepository<TEntity>() where TEntity : class
     {
         if (_repositories.ContainsKey(typeof(TEntity)))

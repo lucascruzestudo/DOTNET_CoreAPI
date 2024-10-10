@@ -5,18 +5,11 @@ using Project.Domain.Notifications;
 
 namespace Project.Application.Features.Commands.LoginUser;
 
-public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUserCommandResponse?>
+public class LoginUserCommandHandler(IUserRepository userRepository, ITokenService tokenService, IMediator mediator) : IRequestHandler<LoginUserCommand, LoginUserCommandResponse?>
 {
-    private readonly IUserRepository _userRepository;
-    private readonly ITokenService _tokenService;
-    private readonly IMediator _mediator;
-
-    public LoginUserCommandHandler(IUserRepository userRepository, ITokenService tokenService, IMediator mediator)
-    {
-        _userRepository = userRepository;
-        _tokenService = tokenService;
-        _mediator = mediator;
-    }
+    private readonly IUserRepository _userRepository = userRepository;
+    private readonly ITokenService _tokenService = tokenService;
+    private readonly IMediator _mediator = mediator;
 
     public async Task<LoginUserCommandResponse?> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
