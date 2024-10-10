@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  webapi:
+    build:
+      context: .
+      dockerfile: source/WebApi/Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "http://+:80"
+      ConnectionStrings__DefaultConnection: "Host=postgres;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD};Trust Server Certificate=true;"
+      Redis__Connection: "${REDIS_CONNECTION}"
+      RabbitMQ__Connection: "${RABBITMQ_CONNECTION}"
+      JwtSettings__Secret: "${JWT_SETTINGS_SECRET}"
+      JwtSettings__Issuer: "${JWT_SETTINGS_ISSUER}"
+      JwtSettings__Audience: "${JWT_SETTINGS_AUDIENCE}"
+      JwtSettings__ExpirationMinutes: "${JWT_SETTINGS_EXPIRATIONMINUTES}"
+      Email__Server: "${EMAIL_SERVER}"
+      Email__Port: "${EMAIL_PORT}"
+      Email__Username: "${EMAIL_USERNAME}"
+      Email__Password: "${EMAIL_PASSWORD}"
+      Email__EnableSsl: "${EMAIL_ENABLESSL}"
+    depends_on:
+      - postgres
+      - redis
+
+  redisinsight:
+    image: redislabs/redisinsight
+    ports:
+      - "8001:8001"
+    environment:
+      REDIS_HOST: redis
+      RI_APP_PORT: 8001
+    depends_on:
+      - redis
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+
+volumes:
+  postgres_data:
