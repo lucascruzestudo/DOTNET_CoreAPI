@@ -16,7 +16,7 @@ public class AcceptLanguageHeaderOperationFilter : IOperationFilter
             Name = "Accept-Language",
             In = ParameterLocation.Header,
             Required = false,
-            Description = "Specify the language for the response.",
+            Description = "Specify the language for the response. Available options: en-US, pt-BR, es-ES.",
             Schema = new OpenApiSchema
             {
                 Type = "string"
