@@ -4,6 +4,7 @@ using Project.Application.Features.Commands.RegisterUser;
 using Project.Application.Features.Commands.LoginUser;
 using Project.Domain.Notifications;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Project.WebApi.Controllers
 {
@@ -16,6 +17,7 @@ namespace Project.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("Register")]
+        [SwaggerOperation(Summary = "Register a new user.")]
         [ProducesResponseType(typeof(RegisterUserCommandResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommandRequest request)
         {
@@ -23,6 +25,7 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpPost("Login")]
+        [SwaggerOperation(Summary = "Authenticate a user.")]
         [ProducesResponseType(typeof(LoginUserCommandResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Login([FromBody] LoginUserCommandRequest request)
         {

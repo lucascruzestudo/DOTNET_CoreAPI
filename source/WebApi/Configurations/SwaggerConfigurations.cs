@@ -41,6 +41,8 @@ public static class SwaggerConfigurations
 
             c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
 
+            c.EnableAnnotations();
+
         });
 
         return services;

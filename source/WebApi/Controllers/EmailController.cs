@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Domain.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Project.Application.Features.Email.Commands.EmailTest;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Project.WebApi.Controllers;
 
@@ -14,6 +15,7 @@ public class EmailController(INotificationHandler<DomainNotification> notificati
 
     [Authorize(Roles = "Admin, User")]
     [HttpPost("Test")]
+    [SwaggerOperation(Summary = "Send a test email to the authenticated user's email address.")]
     [ProducesResponseType(typeof(EmailTestCommandResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> EmailTest()
     {
