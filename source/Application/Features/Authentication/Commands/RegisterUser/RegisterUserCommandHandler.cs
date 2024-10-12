@@ -1,4 +1,5 @@
 using Project.Application.Common.Interfaces;
+using Project.Application.Common.Localizers;
 using Project.Domain.Constants;
 using Project.Domain.Entities;
 using Project.Domain.Interfaces.Data.Repositories;
@@ -6,11 +7,12 @@ using Project.Domain.Notifications;
 
 namespace Project.Application.Features.Commands.RegisterUser
 {
-    public class RegisterUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMediator mediator) : IRequestHandler<RegisterUserCommand, RegisterUserCommandResponse?>
+    public class RegisterUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository, IMediator mediator, CultureLocalizer localizer) : IRequestHandler<RegisterUserCommand, RegisterUserCommandResponse?>
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IMediator _mediator = mediator;
+        private readonly CultureLocalizer _localizer = localizer;
 
         public async Task<RegisterUserCommandResponse?> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
         {
@@ -20,11 +22,11 @@ namespace Project.Application.Features.Commands.RegisterUser
             {
                 if (existingUser.Username == command.Request.Username)
                 {
-                    await _mediator.Publish(new DomainNotification("RegisterUser", "Username already exists"), cancellationToken);
+                    await _mediator.Publish(new DomainNotification("RegisterUser", _localizer.Text("RegisterUsernameExists")), cancellationToken);
                 }
                 else
                 {
-                    await _mediator.Publish(new DomainNotification("RegisterUser", "Email already exists"), cancellationToken);
+                    await _mediator.Publish(new DomainNotification("RegisterUser", _localizer.Text("RegisterEmailExists")), cancellationToken);
                 }
 
                 return default;
@@ -40,7 +42,7 @@ namespace Project.Application.Features.Commands.RegisterUser
             user = _userRepository.Add(user);
             _unitOfWork.Commit();
 
-            await _mediator.Publish(new DomainSuccessNotification("RegisterUser", "User registered successfully"), cancellationToken);
+            await _mediator.Publish(new DomainSuccessNotification("RegisterUser", _localizer.Text("Success")), cancellationToken);
 
             return new RegisterUserCommandResponse { Id = user.Id, Username = user.Username, Email = user.Email };
         }

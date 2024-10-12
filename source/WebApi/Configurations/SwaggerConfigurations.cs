@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using Project.WebApi.Filters;
 
 namespace Project.WebApi.Configurations;
 
@@ -37,6 +38,9 @@ public static class SwaggerConfigurations
             });
 
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Project API", Version = "v1" });
+
+            c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
+
         });
 
         return services;

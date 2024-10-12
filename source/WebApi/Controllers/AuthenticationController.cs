@@ -9,7 +9,8 @@ namespace Project.WebApi.Controllers
 {
     public class AuthenticationController(INotificationHandler<DomainNotification> notifications,
                           INotificationHandler<DomainSuccessNotification> successNotifications,
-                          IMediator mediatorHandler) : BaseController(notifications, successNotifications, mediatorHandler)
+                          IHttpContextAccessor httpContextAccessor,
+                          IMediator mediatorHandler) : BaseController(notifications, successNotifications, mediatorHandler, httpContextAccessor)
     {
         private readonly IMediator _mediatorHandler = mediatorHandler;
 

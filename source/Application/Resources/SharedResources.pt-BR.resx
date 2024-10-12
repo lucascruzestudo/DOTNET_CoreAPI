@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="RequiredField" xml:space="preserve">
+    <value>{0} é obrigatório.</value>
+  </data>
+  <data name="FieldNotFound" xml:space="preserve">
+    <value>{0} não foi encontrado.</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>{0} não é válido.</value>
+  </data>
+  <data name="MinLength" xml:space="preserve">
+    <value>{0} deve ter ao menos {1} caracteres.</value>
+  </data>
+  <data name="PasswordMinLength" xml:space="preserve">
+    <value>A senha deve ter ao menos {0} caracteres.</value>
+  </data>
+  <data name="PasswordUppercase" xml:space="preserve">
+    <value>A senha deve conter ao menos uma letra maiúscula.</value>
+  </data>
+  <data name="PasswordLowercase" xml:space="preserve">
+    <value>A senha deve conter ao menos uma letra minúscula.</value>
+  </data>
+  <data name="PasswordNumber" xml:space="preserve">
+    <value>A senha deve conter ao menos um número.</value>
+  </data>
+  <data name="PasswordSpecialCharacter" xml:space="preserve">
+    <value>A senha deve conter ao menos um caractere especial.</value>
+  </data>
+  <data name="LoginInvalidCredentials" xml:space="preserve">
+    <value>Nome de usuário ou senha inválidos.</value>
+  </data>
+   <data name="Success" xml:space="preserve">
+    <value>Sua ação foi concluída com sucesso.</value>
+  </data>
+  <data name="RegisterUsernameExists" xml:space="preserve">
+    <value>O nome de usuário ja existe.</value>
+  </data>
+  <data name="RegisterEmailExists" xml:space="preserve">
+    <value>O email já existe.</value>
+  </data>
+</root>
+

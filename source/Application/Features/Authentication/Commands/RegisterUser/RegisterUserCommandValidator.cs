@@ -1,33 +1,29 @@
-using Project.Application.Common.Messages;
+using Microsoft.Extensions.Localization;
+using Project.Application.Common.Localizers;
 
 namespace Project.Application.Features.Commands.RegisterUser;
-
 public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
-    public RegisterUserCommandValidator()
+    private readonly CultureLocalizer _localizer;
+
+    public RegisterUserCommandValidator(CultureLocalizer localizer)
     {
-        RuleFor(x => x.Request)
-            .NotNull().WithMessage(ErrorMessages.InvalidRequest)
-            .DependentRules(() =>
-            {
-                RuleFor(x => x.Request.Username)
-                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
-                    .NotNull().WithMessage(ErrorMessages.RequiredProperty)
-                    .Must(x => !x.Contains(' ')).WithMessage(ErrorMessages.InvalidProperty);
+        _localizer = localizer;
 
-                RuleFor(x => x.Request.Password)
-                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
-                    .NotNull().WithMessage(ErrorMessages.RequiredProperty)
-                    .MinimumLength(8).WithMessage(ErrorMessages.PasswordTooShort)
-                    .Matches(@"[A-Z]").WithMessage(ErrorMessages.PasswordMissingUppercase)
-                    .Matches(@"[a-z]").WithMessage(ErrorMessages.PasswordMissingLowercase)
-                    .Matches(@"[0-9]").WithMessage(ErrorMessages.PasswordMissingNumber)
-                    .Matches(@"[^a-zA-Z0-9]").WithMessage(ErrorMessages.PasswordMissingSpecialCharacter);
+        RuleFor(x => x.Request.Username)
+            .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Username"))
+            .Must(x => !x.Contains(' ')).WithMessage(_localizer.Text("UsernameCannotContainSpaces"));
 
-                RuleFor(x => x.Request.Email)
-                    .NotEmpty().WithMessage(ErrorMessages.RequiredProperty)
-                    .NotNull().WithMessage(ErrorMessages.RequiredProperty)
-                    .EmailAddress().WithMessage(ErrorMessages.InvalidProperty);
-        });
+        RuleFor(x => x.Request.Password)
+            .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Password"))
+            .MinimumLength(8).WithMessage(_localizer.Text("PasswordMinLength", 8))
+            .Matches(@"[A-Z]").WithMessage(_localizer.Text("PasswordUppercase"))
+            .Matches(@"[a-z]").WithMessage(_localizer.Text("PasswordLowercase"))
+            .Matches(@"[0-9]").WithMessage(_localizer.Text("PasswordNumber"))
+            .Matches(@"[^a-zA-Z0-9]").WithMessage(_localizer.Text("PasswordSpecialCharacter"));
+
+        RuleFor(x => x.Request.Email)
+            .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Email"))
+            .EmailAddress().WithMessage(_localizer.Text("InvalidEmail", "Email"));
     }
 }

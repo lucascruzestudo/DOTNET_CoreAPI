@@ -44,12 +44,6 @@ public static class DependencyInjection
             };
         });
 
-        var cultureInfo = new CultureInfo("pt-BR");
-        cultureInfo.NumberFormat.CurrencySymbol = "R$";
-
-        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
         services.AddScoped<IUser, CurrentUser>();
 
         services.AddNotifications();
