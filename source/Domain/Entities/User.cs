@@ -1,5 +1,3 @@
-using BCrypt.Net;
-
 namespace Project.Domain.Entities
 {
     public class User : BaseEntity
@@ -20,7 +18,15 @@ namespace Project.Domain.Entities
             RoleId = roleId;
         }
 
-        private string HashPassword(string password)
+        public User(string username, string password, string email, Guid roleId, bool isHashed)
+        {
+            Username = username;
+            HashedPassword = isHashed ? password : HashPassword(password);
+            Email = email;
+            RoleId = roleId;
+        }
+
+        public static string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
         }

@@ -39,5 +39,32 @@
   <data name="RegisterEmailExists" xml:space="preserve">
     <value>Email already exists.</value>
   </data>
-
+  <data name="InvalidToken" xml:space="preserve">
+    <value>Invalid token.</value>
+  </data>
+  <data name="ConfirmEmailSubject" xml:space="preserve">
+      <value>Account Confirmation</value>
+  </data>
+  <data name="ConfirmEmailBody" xml:space="preserve">
+      <value>
+          <![CDATA[<h1>You're almost done with your registration, @{0}!</h1>
+          <p>Thank you for registering with us.</p>
+          <p>Please click the link below to confirm your email address:</p>
+          <a href='{1}'>Confirm Email</a>
+          <br></br>
+          <p>The confirmation link will expire in {2} minutes.</p>
+          <p>If you did not register for this account, please ignore this email.</p>]]>
+      </value>
+  </data>
+  <data name="AccountConfirmedSubject" xml:space="preserve">
+      <value>Account Confirmed</value>
+  </data>
+  <data name="AccountConfirmedBody" xml:space="preserve">
+    <value>
+        <![CDATA[<h1>Welcome @{0}!</h1>
+        <p>Thank you for confirming your email address. Your account is now fully activated.</p>
+        <p>You can now access your account and start using our platform.</p>
+        <p>If you have any questions or need assistance, feel free to contact our support team.</p>]]>
+    </value>
+  </data>
 </root>

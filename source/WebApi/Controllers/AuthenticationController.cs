@@ -5,6 +5,7 @@ using Project.Application.Features.Commands.LoginUser;
 using Project.Domain.Notifications;
 using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Annotations;
+using Project.Application.Features.Commands.ConfirmUser;
 
 namespace Project.WebApi.Controllers
 {
@@ -15,7 +16,6 @@ namespace Project.WebApi.Controllers
     {
         private readonly IMediator _mediatorHandler = mediatorHandler;
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("Register")]
         [SwaggerOperation(Summary = "Register a new user.")]
         [ProducesResponseType(typeof(RegisterUserCommandResponse), StatusCodes.Status200OK)]
@@ -30,6 +30,14 @@ namespace Project.WebApi.Controllers
         public async Task<IActionResult> Login([FromBody] LoginUserCommandRequest request)
         {
             return Response(await _mediatorHandler.Send(new LoginUserCommand(request)));
+        }
+
+        [HttpGet("Confirm/{token}")]
+        [SwaggerOperation(Summary = "Confirm a user.")]
+        [ProducesResponseType(typeof(ConfirmUserCommandResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Confirm(string token)
+        {
+            return Response(await _mediatorHandler.Send(new ConfirmUserCommand(token)));
         }
     }
 }

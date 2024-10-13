@@ -14,15 +14,9 @@ public class RedisService(IConnectionMultiplexer redis) : IRedisService
         await _database.StringSetAsync(key, jsonValue, expirationTime);
     }
 
-    public async Task<T?> GetAsync<T>(string key)
+    public async Task<string?> GetAsync<T>(string key)
     {
-        var jsonValue = await _database.StringGetAsync(key);
-        if (jsonValue.IsNullOrEmpty)
-        {
-            return default;
-        }
-
-        return JsonSerializer.Deserialize<T>(jsonValue!);
+        return await _database.StringGetAsync(key);
     }
 
     public async Task DeleteAsync(string key)
