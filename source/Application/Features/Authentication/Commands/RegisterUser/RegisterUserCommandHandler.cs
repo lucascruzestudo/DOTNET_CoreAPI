@@ -16,22 +16,6 @@ namespace Project.Application.Features.Commands.RegisterUser
 
         public async Task<RegisterUserCommandResponse?> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
         {
-            var existingUser = _userRepository.Get(x => x.Username == command.Request.Username || x.Email == command.Request.Email);
-
-            if (existingUser is not null)
-            {
-                if (existingUser.Username == command.Request.Username)
-                {
-                    await _mediator.Publish(new DomainNotification("RegisterUser", _localizer.Text("RegisterUsernameExists")), cancellationToken);
-                }
-                else
-                {
-                    await _mediator.Publish(new DomainNotification("RegisterUser", _localizer.Text("RegisterEmailExists")), cancellationToken);
-                }
-
-                return default;
-            }
-
             var expirationMinutes = 15;
             var token = Guid.NewGuid().ToString();
             var tokenInfo = $"{command.Request.Email};{User.HashPassword(command.Request.Password)};{command.Request.Username}";

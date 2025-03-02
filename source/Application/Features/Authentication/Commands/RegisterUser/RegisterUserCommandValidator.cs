@@ -1,34 +1,41 @@
 using Microsoft.Extensions.Localization;
 using Project.Application.Common.Localizers;
+using Project.Domain.Interfaces.Data.Repositories;
 
-namespace Project.Application.Features.Commands.RegisterUser;
-public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
+namespace Project.Application.Features.Commands.RegisterUser
 {
-    private readonly CultureLocalizer _localizer;
-
-    public RegisterUserCommandValidator(CultureLocalizer localizer)
+    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
-        _localizer = localizer;
+        private readonly CultureLocalizer _localizer;
+        private readonly IUserRepository _userRepository;
 
-        RuleFor(x => x.Request)
-            .NotNull().WithMessage(_localizer.Text("RequiredField", "Request"))
-            .DependentRules(() =>
-            {
-                RuleFor(x => x.Request.Username)
-                    .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Username"))
-                    .Must(x => !x.Contains(' ')).WithMessage(_localizer.Text("UsernameCannotContainSpaces"));
+        public RegisterUserCommandValidator(CultureLocalizer localizer, IUserRepository userRepository)
+        {
+            _localizer = localizer;
+            _userRepository = userRepository;
 
-                RuleFor(x => x.Request.Password)
-                    .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Password"))
-                    .MinimumLength(8).WithMessage(_localizer.Text("PasswordMinLength", 8))
-                    .Matches(@"[A-Z]").WithMessage(_localizer.Text("PasswordUppercase"))
-                    .Matches(@"[a-z]").WithMessage(_localizer.Text("PasswordLowercase"))
-                    .Matches(@"[0-9]").WithMessage(_localizer.Text("PasswordNumber"))
-                    .Matches(@"[^a-zA-Z0-9]").WithMessage(_localizer.Text("PasswordSpecialCharacter"));
+            RuleFor(x => x.Request)
+                .NotNull().WithMessage(_localizer.Text("RequiredField", "Request"))
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Request.Username)
+                        .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Username"))
+                        .Must(x => !x.Contains(' ')).WithMessage(_localizer.Text("UsernameCannotContainSpaces"))
+                        .Must(x =>
+                        {
+                            var existingUser = _userRepository.Get(user => user.Username == x);
+                            return existingUser == null;
+                        }).WithMessage(_localizer.Text("RegisterUsernameExists"));
 
-                RuleFor(x => x.Request.Email)
-                    .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Email"))
-                    .EmailAddress().WithMessage(_localizer.Text("InvalidEmail", "Email"));
-            });
+                    RuleFor(x => x.Request.Email)
+                        .NotEmpty().WithMessage(_localizer.Text("RequiredField", "Email"))
+                        .EmailAddress().WithMessage(_localizer.Text("InvalidEmail", "Email"))
+                        .Must(x =>
+                        {
+                            var existingUser = _userRepository.Get(user => user.Email == x);
+                            return existingUser == null;
+                        }).WithMessage(_localizer.Text("RegisterEmailExists"));
+                });
+        }
     }
 }
