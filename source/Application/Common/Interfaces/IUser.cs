@@ -2,7 +2,7 @@
 
 public interface IUser
 {
-    string? Id { get; }
+    Guid? Id { get; }
     string? Role { get; }
     string? Username { get; }
     string? Email { get; }
